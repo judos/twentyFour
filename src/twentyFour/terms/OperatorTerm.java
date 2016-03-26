@@ -1,22 +1,25 @@
 package twentyFour.terms;
 
-import java.util.function.BinaryOperator;
+public class OperatorTerm extends Term {
 
-public class OperatorTerm<T> extends Term<T> {
+	private Term t1;
+	private Term t2;
+	private PrimitiveOperator operator;
 
-	private Term<T> t1;
-	private Term<T> t2;
-	private BinaryOperator<T> operator;
-
-	public OperatorTerm(Term<T> t1, Term<T> t2, BinaryOperator<T> operator) {
+	public OperatorTerm(Term t1, Term t2, PrimitiveOperator operator) {
 		this.t1 = t1;
 		this.t2 = t2;
 		this.operator = operator;
 	}
 
 	@Override
-	public T getValue() {
-		return this.operator.apply(this.t1.getValue(), this.t2.getValue());
+	public double getValue() {
+		return this.operator.getOperator().apply(this.t1.getValue(), this.t2.getValue());
+	}
+
+	@Override
+	public String toString() {
+		return "(" + this.t1 + this.operator + this.t2 + ")";
 	}
 
 }

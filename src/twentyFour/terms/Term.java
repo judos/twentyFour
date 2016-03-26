@@ -1,7 +1,7 @@
 package twentyFour.terms;
 
-public abstract class Term<T> {
+public abstract class Term {
 
-	public abstract T getValue();
+	public abstract double getValue();
 
 }

@@ -3,55 +3,46 @@ package twentyFour;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
+import twentyFour.terms.ConstantTerm;
+import twentyFour.terms.OperatorTerm;
 import twentyFour.terms.PrimitiveOperator;
+import twentyFour.terms.Term;
 
 public class TwentyFourProblem extends BaseProblem {
 
-	private ArrayList<Integer> numbers;
+	private ArrayList<Term> numbers;
 	private StringBuffer log;
+	private boolean isInvalid;
+	private Term resultTerm;
 
 	public TwentyFourProblem(int caseNr, ArrayList<Integer> numbers) {
 		super(caseNr);
-		this.numbers = numbers;
-		this.log = new StringBuffer();
+		this.numbers = new ArrayList<>();
+		for (Integer i : numbers)
+			this.numbers.add(new ConstantTerm((double) i));
+		this.isInvalid = false;
+
 		if (numbers.size() != 4)
 			throw new InvalidParameterException("must provide 4 numbers");
 	}
 
 	public boolean doesSolveProblem() {
 		try {
-			double result;
-			int nr1 = numbers.remove(getNr(4));
-			int nr2 = numbers.remove(getNr(3));
-			int nr3 = numbers.remove(getNr(2));
-			int nr4 = numbers.remove(0);
-
-			// can do multiple orders:
-			int orderCase = getNr(0, 3);
-			if (orderCase == 0) { // (a x b) x (c x d)
-				double a = calc(nr1, nr2);
-				double b = calc(nr3, nr4);
-				result = calc(a, b);
-			}
-			else if (orderCase == 1) { // ((a x b) x c) x d
-				double a = calc(nr1, nr2);
-				double b = calc(a, nr3);
-				result = calc(b, nr4);
-			}
-			else if (orderCase == 2) { // a x ((b x c) x d)
-				double a = calc(nr2, nr3);
-				double b = calc(a, nr4);
-				result = calc(nr1, b);
-			}
-			else { // a x (b x (c x d))
-				double a = calc(nr3, nr4);
-				double b = calc(nr2, a);
-				result = calc(nr1, b);
-			}
-			return result == 24;
+			do {
+				addUpTogether();
+			} while (numbers.size() > 1);
+			this.resultTerm = numbers.remove(0);
+			return this.resultTerm.getValue() == 24;
 		}
 		catch (InvalidParameterException e) {}
 		return false;
+	}
+
+	private void addUpTogether() {
+		Term nr1 = numbers.remove(getNr(numbers.size()));
+		Term nr2 = numbers.remove(getNr(numbers.size()));
+		Term result = new OperatorTerm(nr1, nr2, getEnum(PrimitiveOperator.class));
+		this.numbers.add(result);
 	}
 
 	public double calc(double nr1, double nr2) {
@@ -62,6 +53,6 @@ public class TwentyFourProblem extends BaseProblem {
 	}
 
 	public String getLog() {
-		return this.log.toString();
+		return this.resultTerm.toString();
 	}
 }

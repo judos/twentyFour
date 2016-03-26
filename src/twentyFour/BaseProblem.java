@@ -2,6 +2,7 @@ package twentyFour;
 
 import java.lang.reflect.Method;
 import java.security.InvalidParameterException;
+import java.util.List;
 
 public class BaseProblem {
 
@@ -17,7 +18,7 @@ public class BaseProblem {
 	 * creates a random number depending on the caseNr
 	 * 
 	 * @param max
-	 *          exclusive max number
+	 *           exclusive max number
 	 */
 	public int getNr(int max) {
 		this.possibilities *= max;
@@ -46,6 +47,11 @@ public class BaseProblem {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public <T> List<T> removeElementsFromList(List<T> list, int numberOfElements) {
+
+		return list;
 	}
 
 	public int getPossibilities() {

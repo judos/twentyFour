@@ -1,15 +1,22 @@
 package twentyFour.terms;
 
-public class ConstantTerm<T> extends Term<T> {
+public class ConstantTerm extends Term {
 
-	private T value;
+	private double value;
 
-	public ConstantTerm(T value) {
+	public ConstantTerm(double value) {
 		this.value = value;
 	}
 
 	@Override
-	public T getValue() {
+	public double getValue() {
 		return this.value;
+	}
+
+	@Override
+	public String toString() {
+		if (this.value % 1 == 0)
+			return String.valueOf((long) this.value);
+		return String.valueOf(this.value);
 	}
 }
