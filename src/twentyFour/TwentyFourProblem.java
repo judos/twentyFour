@@ -12,7 +12,6 @@ public class TwentyFourProblem extends BaseProblem {
 
 	private ArrayList<Term> numbers;
 	private StringBuffer log;
-	private boolean isInvalid;
 	private Term resultTerm;
 
 	public TwentyFourProblem(int caseNr, ArrayList<Integer> numbers) {
@@ -20,7 +19,6 @@ public class TwentyFourProblem extends BaseProblem {
 		this.numbers = new ArrayList<>();
 		for (Integer i : numbers)
 			this.numbers.add(new ConstantTerm((double) i));
-		this.isInvalid = false;
 
 		if (numbers.size() != 4)
 			throw new InvalidParameterException("must provide 4 numbers");
