@@ -1,24 +1,61 @@
 package twentyFour;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Collectors;
+
+import twentyFour.controller.TwentyFourProblem;
 
 public class Solve24 {
 
 	public static void main(String[] args) {
-		List<Integer> numbers = Arrays.asList(1, 3, 4, 9);
-		ArrayList<Integer> numberList = new ArrayList<Integer>(numbers);
+		int[] numbers = { 1, 3, 4, 6 };
+		Solve24 s = new Solve24(numbers);
+		if (s.isSolvable()) {
+			System.out.println(s.getFirstSolution());
+			System.out.println("Solutions: " + s.solutions.size() + " / " + s.possibilities);
+		}
+	}
 
+	private int[] numbers;
+	private boolean solved;
+	private boolean isSolvable;
+	private ArrayList<String> solutions;
+	private int possibilities;
+
+	public Solve24(int[] numbers) {
+		this.numbers = numbers;
+		this.solutions = new ArrayList<String>();
+	}
+
+	public boolean isSolvable() {
+		if (!this.solved) {
+			solve();
+		}
+		return this.isSolvable;
+	}
+
+	public String getFirstSolution() {
+		if (this.solutions.size() == 0)
+			throw new InvalidParameterException("This problem has no solution");
+		return this.solutions.get(0);
+	}
+
+	private void solve() {
+		this.isSolvable = false;
+		this.possibilities = 0;
+		ArrayList<Integer> numberList = new ArrayList<>(Arrays.stream(numbers).boxed().collect(Collectors.toList()));
 		TwentyFourProblem problem = new TwentyFourProblem(0, numberList);
 		problem.doesSolveProblem();
-		System.out.println("Estimated possibilities: " + problem.getPossibilities());
-
-		for (int i = 0; i < problem.getPossibilities(); i++) {
-			TwentyFourProblem problemCase = new TwentyFourProblem(i, new ArrayList<Integer>(numbers));
+		this.possibilities = problem.getPossibilities();
+		for (int i = 0; i < this.possibilities; i++) {
+			TwentyFourProblem problemCase = new TwentyFourProblem(i, new ArrayList<Integer>(numberList));
 			if (problemCase.doesSolveProblem()) {
-				System.out.println(problemCase.getLog());
+				this.isSolvable = true;
+				this.solutions.add(problemCase.getLog());
 			}
 		}
 	}
+
 }

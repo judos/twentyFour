@@ -1,4 +1,4 @@
-package twentyFour;
+package twentyFour.controller;
 
 import java.lang.reflect.Method;
 import java.security.InvalidParameterException;

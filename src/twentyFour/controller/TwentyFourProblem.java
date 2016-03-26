@@ -1,4 +1,4 @@
-package twentyFour;
+package twentyFour.controller;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
